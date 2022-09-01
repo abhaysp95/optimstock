@@ -46,7 +46,7 @@ public class LicenseController
 		return ResponseEntity.ok(this.licenseService.updateLicense(request, organizationId));
 	}
 
-	@DeleteMapping
+	@DeleteMapping(value = "/{licenseId}")
 	public ResponseEntity<String> deleteLicense(
 			@PathVariable("organizationId") String organizationId,
 			@PathVariable("licenseId") String licenseId)
