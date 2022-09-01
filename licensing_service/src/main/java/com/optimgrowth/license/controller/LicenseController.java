@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import com.optimgrowth.license.entity.License;
 import com.optimgrowth.license.service.LicenseService;
 
@@ -30,8 +33,22 @@ public class LicenseController
 			@PathVariable("organizationId") String organizationId,
 			@PathVariable("licenseId") String licenseId)
 	{
-		return ResponseEntity.ok(this.licenseService.getLicense(licenseId, organizationId));
+		License license = this.licenseService.getLicense(licenseId, organizationId);
+		license.add(
+				linkTo(methodOn(LicenseController.class)
+					.getLicense(organizationId, license.getLicenseId())).withSelfRel(),
+				linkTo(methodOn(LicenseController.class)
+					.createLicense(organizationId, license, null)).withRel("createLicense"),
+				linkTo(methodOn(LicenseController.class)
+					.updateLicense(organizationId, license)).withRel("updateLicense"),
+				linkTo(methodOn(LicenseController.class)
+					.deleteLicense(organizationId, license.getLicenseId())).withRel("deleteLicense"));
+
+		return ResponseEntity.ok(license);
 	}
+
+	// you can add links inside rest of the controller methods if they are
+	// returning License too (or is there any other way to do this also ?)
 
 	@PostMapping
 	public ResponseEntity<String> createLicense(
