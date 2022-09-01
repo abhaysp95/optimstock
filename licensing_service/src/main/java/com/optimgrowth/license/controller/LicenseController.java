@@ -43,12 +43,14 @@ public class LicenseController
 			@PathVariable("organizationId") String organizationId,
 			@RequestBody License request)
 	{
-		return ResponseEntity.ok(this.licenseService.createLicense(request, organizationId));
+		return ResponseEntity.ok(this.licenseService.updateLicense(request, organizationId));
 	}
 
 	@DeleteMapping
-	public ResponseEntity<String> updateLicense(
+	public ResponseEntity<String> deleteLicense(
 			@PathVariable("organizationId") String organizationId,
-			@PathVariable("licenseId") String licenseId,
-			)
+			@PathVariable("licenseId") String licenseId)
+	{
+		return ResponseEntity.ok(this.licenseService.deleteLicense(licenseId, organizationId));
+	}
 }
