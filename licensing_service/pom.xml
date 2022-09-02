@@ -57,6 +57,10 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<image>
+                        <!-- if you want to customize the name of the image created via spring-boot cloud-native buildpacks -->
+						<name>${docker.image.prefix}/${project.artifactId}:latest</name>
+					</image>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
