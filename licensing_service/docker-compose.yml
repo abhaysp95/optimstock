@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  licensingservice:  # applies a label to each service launched.
+                     # This becomes DNS entry for the Docker instance when it starts, which is how other services access it
+    image: licensing_service:latest  # docker compose file tries to find the image in local docker repo. else checks central docker hub
+    ports:
+      - "8080:8080"
+    environment:
+      - "SPRING_PROFILE_ACTIVE=dev"
+
+    networks:
+      backend:  # names the network where service belongs
+        aliases:
+          - "licenseservice"  # specifies the alternative hostname for the service on the network
+
+networks:
+  backend:  # create a custom network named backend with default type bridge
+    driver: bridge
