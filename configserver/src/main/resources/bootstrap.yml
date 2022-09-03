@@ -1,6 +1,22 @@
 spring:
   application:
     name: config_server
+  profiles:
+    active: native  # spring profile associated with backend repo (filesystem)
+
+  cloud:
+    config:
+      server:
+        # local configuration: this location can either be of Classpath or locations in the filesystem
+        native:
+          # reads from specific filesystem folder
+          search-locations: classpath:/config
+            # file:///{FILE_PATH} # comma-separated list of the directories for each application that will have properties managed by the Config Server
+
 
 server:
   port: 8071
+
+# 'native' is just a profile created for the Spring Cloud Configuration Server,
+# which indicates that the configuration files are going to be retrieved or
+# read from the classpath or filesystem.
